@@ -17,6 +17,16 @@ public class LinkedList {
 		}
 	}
 
+	public void addLoop(int index) {
+		int i = 0;
+		for (Node node = first; node != null; node = node.next) {
+			if (i++ == index) {
+				last.next = node;
+				return;
+			}
+		}
+	}
+
 	public void addFirst(int item) {
 		Node node = new Node(item);
 		if (isEmpty()) {
@@ -114,6 +124,54 @@ public class LinkedList {
 		if (first == last)
 			return;
 		//...
+	}
+
+	public int getKthNodeFromTheEnd(int k) {
+		if (isEmpty())
+			throw new IllegalArgumentException();
+		Node a = first;
+		Node b = first;
+		for (int i = 1; i < k; i++) {
+			b = b.next;
+			if (b == null)
+				throw new IllegalArgumentException();
+		}
+		while (b != last) {
+			a = a.next;
+			b = b.next;
+		}
+		return a.value;
+	}
+
+	public void printMiddle() {
+		if (isEmpty()) return;
+
+		int loop = 1;
+		Node a = first;
+		Node b = first;
+		while (true) {
+			if (b.next == last) {
+				System.out.printf("Middle: %d %d \n", a.value, a.next.value);
+				break;
+			} else if (b.next == null) {
+				break;
+			}
+			b = b.next.next;
+			a = a.next;
+		}
+	}
+
+	public boolean hasLoop() {
+		if (first == last) return false;
+		Node a = first;
+		Node b = first;
+		while (true) {
+			if (b == last || b.next == last)
+				return true;
+			b = b.next.next;
+			a = a.next;
+
+		}
 	}
 
 	private boolean isEmpty() {
