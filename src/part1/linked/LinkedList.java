@@ -146,7 +146,6 @@ public class LinkedList {
 	public void printMiddle() {
 		if (isEmpty()) return;
 
-		int loop = 1;
 		Node a = first;
 		Node b = first;
 		while (true) {
