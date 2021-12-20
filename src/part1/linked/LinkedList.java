@@ -123,7 +123,24 @@ public class LinkedList {
 	public void reverse() {
 		if (first == last)
 			return;
-		//...
+		last = first;
+		Node current = first;
+		Node previous = null;
+		while (current != null) {
+			Node second = current.next;
+			if (second != null) {
+				Node third = second.next;
+				second.next = current;
+				current.next = previous;
+				current = third;
+				previous = second;
+			} else {
+				current.next = previous;
+				previous = current;
+				break;
+			}
+		}
+		first = previous;
 	}
 
 	public int getKthNodeFromTheEnd(int k) {
@@ -164,13 +181,13 @@ public class LinkedList {
 		if (first == last) return false;
 		Node a = first;
 		Node b = first;
-		while (true) {
-			if (b == last || b.next == last)
-				return true;
+		while (b != null && b.next != null) {
+			if (b.next == a) return true;
 			b = b.next.next;
 			a = a.next;
 
 		}
+		return false;
 	}
 
 	private boolean isEmpty() {
