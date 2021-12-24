@@ -5,7 +5,9 @@ import java.util.EmptyStackException;
 public class Stack {
 	private int[] items = new int[10];
 	private int size;
-
+	//  5, 2, 10
+	// min 1
+	// pop 10
 	public void push(int item) {
 		if (size == items.length)
 			throw new StackOverflowError();
