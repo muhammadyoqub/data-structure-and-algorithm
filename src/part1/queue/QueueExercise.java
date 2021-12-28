@@ -1,8 +1,9 @@
 package part1.queue;
 
+import java.util.Arrays;
 import java.util.Stack;
 
-public class Main {
+public class QueueExercise {
 
 	public static void main(String[] args) {
 		ArrayQueue queue = new ArrayQueue();
@@ -41,6 +42,23 @@ public class Main {
 		queueWithTwoStack.add(50);
 		queueWithTwoStack.add(60);
 		System.out.println(queueWithTwoStack);
+
+		System.out.println("------PriorityQueue---------");
+		PriorityQueue priorityQueue = new PriorityQueue(10);
+		priorityQueue.add(1);
+		priorityQueue.add(5);
+		priorityQueue.add(3);
+		priorityQueue.add(7);
+		while (!priorityQueue.isEmpty())
+			System.out.println(priorityQueue.remove());
+		priorityQueue.add(10);
+		priorityQueue.add(8);
+		priorityQueue.add(9);
+		priorityQueue.add(6);
+		while (!priorityQueue.isEmpty())
+			System.out.println(priorityQueue.remove());
+		int[] items = {1, 2, 3, 4};
+		System.out.println(Arrays.toString(reverse(3, items)));
 	}
 
 	public static void reverse(ArrayQueue queue) {
@@ -52,4 +70,20 @@ public class Main {
 			queue.add(stack.pop());
 
 	}
+
+	public static int[] reverse(int k, int[] items) {
+		if (k > items.length)
+			throw new IllegalArgumentException();
+
+		if (k < 2)
+			return items;
+
+		for (int i = 1; i < k; i++) {
+			int previous = items[i - 1];
+			items[i - 1] = items[i];
+			items[i] = previous;
+		}
+		return items;
+	}
+
 }
