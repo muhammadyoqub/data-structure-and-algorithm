@@ -3,8 +3,12 @@ package part1.stack;
 import java.util.EmptyStackException;
 
 public class Stack {
-	private int[] items = new int[10];
+	private int[] items;
 	private int size;
+
+	public Stack(int capacity) {
+		items = new int[capacity];
+	}
 
 	public void push(int item) {
 		if (size == items.length)

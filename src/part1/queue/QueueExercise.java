@@ -32,7 +32,7 @@ public class QueueExercise {
 		System.out.println(queue);
 		System.out.println("------QueueWithTwoStack---------");
 
-		QueueWithTwoStack queueWithTwoStack = new QueueWithTwoStack();
+		QueueWithTwoStack queueWithTwoStack = new QueueWithTwoStack(10);
 		queueWithTwoStack.add(10);
 		queueWithTwoStack.add(20);
 		queueWithTwoStack.add(30);
@@ -57,8 +57,18 @@ public class QueueExercise {
 		priorityQueue.add(6);
 		while (!priorityQueue.isEmpty())
 			System.out.println(priorityQueue.remove());
-		int[] items = {1, 2, 3, 4};
+		int[] items = {1, 2, 3, 4, 5};
 		System.out.println(Arrays.toString(reverse(3, items)));
+		System.out.println("--------StackWithTwoQueues-----------");
+		StackWithTwoQueues stack = new StackWithTwoQueues();
+		stack.push(1);
+		stack.push(2);
+		stack.push(3);
+		System.out.println(stack.pop());
+		System.out.println(stack.peek());
+		System.out.println(stack.pop());
+		System.out.println(stack.pop());
+		stack.print();
 	}
 
 	public static void reverse(ArrayQueue queue) {
@@ -75,13 +85,13 @@ public class QueueExercise {
 		if (k > items.length)
 			throw new IllegalArgumentException();
 
-		if (k < 2)
-			return items;
-
-		for (int i = 1; i < k; i++) {
-			int previous = items[i - 1];
-			items[i - 1] = items[i];
-			items[i] = previous;
+		part1.stack.Stack stack = new part1.stack.Stack(k);
+		for (int i = 0; i < k; i++) {
+			stack.push(items[i]);
+		}
+		int i = 0;
+		while (!stack.isEmpty()) {
+			items[i++] = stack.pop();
 		}
 		return items;
 	}

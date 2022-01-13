@@ -9,9 +9,9 @@ public class QueueWithTwoStack {
 	private Stack second;
 	private int count;
 
-	public QueueWithTwoStack() {
-		first = new Stack();
-		second = new Stack();
+	public QueueWithTwoStack(int capacity) {
+		first = new Stack(capacity);
+		second = new Stack(capacity);
 	}
 
 	public void add(int item) {
