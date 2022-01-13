@@ -68,7 +68,6 @@ public class QueueExercise {
 		System.out.println(stack.peek());
 		System.out.println(stack.pop());
 		System.out.println(stack.pop());
-		stack.print();
 
 		System.out.println("------------LinkedListQueue--------");
 		LinkedListQueue<Integer> linkedListQueue = new LinkedListQueue<>();
