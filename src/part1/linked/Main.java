@@ -5,7 +5,7 @@ public class Main {
 	public static void main(String[] args) {
 		LinkedList list = new LinkedList();
 		list.print();
-		System.out.println(list.getSize());
+		System.out.println(list.size());
 		list.addLast(10);
 		list.addLast(20);
 		list.addLast(30);

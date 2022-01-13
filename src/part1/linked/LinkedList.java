@@ -108,7 +108,7 @@ public class LinkedList {
 		return items;
 	}
 
-	public int getSize() {
+	public int size() {
 		return size;
 	}
 
@@ -192,6 +192,20 @@ public class LinkedList {
 
 	private boolean isEmpty() {
 		return first == null;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("[");
+		Node node = first;
+		while (node != null) {
+			stringBuilder.append(node.value);
+			node = node.next;
+			if (node != null) stringBuilder.append(", ");
+		}
+		stringBuilder.append("]");
+		return stringBuilder.toString();
 	}
 
 }

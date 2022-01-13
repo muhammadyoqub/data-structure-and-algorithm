@@ -59,6 +59,27 @@ public class QueueExercise {
 			System.out.println(priorityQueue.remove());
 		int[] items = {1, 2, 3, 4};
 		System.out.println(Arrays.toString(reverse(3, items)));
+
+		System.out.println("------------LinkedListQueue--------");
+		LinkedListQueue linkedListQueue = new LinkedListQueue();
+		linkedListQueue.add(10);
+		linkedListQueue.add(20);
+		linkedListQueue.add(30);
+		linkedListQueue.add(40);
+		System.out.println(linkedListQueue.remove());
+		System.out.println(linkedListQueue.peek());
+		System.out.println(linkedListQueue);
+		System.out.println("------------StackWithTwoQueues----------");
+		StackWithTwoQueues stackWithTwoQueues = new StackWithTwoQueues();
+		stackWithTwoQueues.push(10);
+		System.out.println(stackWithTwoQueues.pop());
+		stackWithTwoQueues.push(20);
+		stackWithTwoQueues.push(30);
+		System.out.println(stackWithTwoQueues.pop());
+		stackWithTwoQueues.push(40);
+		stackWithTwoQueues.push(50);
+		System.out.println(stackWithTwoQueues.peek());
+		System.out.println(stackWithTwoQueues);
 	}
 
 	public static void reverse(ArrayQueue queue) {
