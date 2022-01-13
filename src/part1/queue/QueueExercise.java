@@ -61,7 +61,7 @@ public class QueueExercise {
 		System.out.println(Arrays.toString(reverse(3, items)));
 
 		System.out.println("------------LinkedListQueue--------");
-		LinkedListQueue linkedListQueue = new LinkedListQueue();
+		LinkedListQueue<Integer> linkedListQueue = new LinkedListQueue<>();
 		linkedListQueue.add(10);
 		linkedListQueue.add(20);
 		linkedListQueue.add(30);

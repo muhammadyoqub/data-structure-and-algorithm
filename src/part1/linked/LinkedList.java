@@ -1,25 +1,26 @@
 package part1.linked;
 
+import java.lang.reflect.Array;
 import java.util.NoSuchElementException;
 
-public class LinkedList {
+public class LinkedList<T> {
 
-	private Node first;
-	private Node last;
+	private Node<T> first;
+	private Node<T> last;
 	private int size;
 
-	private static class Node {
-		private final int value;
-		private Node next;
+	private static class Node<T> {
+		private final T value;
+		private Node<T> next;
 
-		public Node(int value) {
+		public Node(T value) {
 			this.value = value;
 		}
 	}
 
 	public void addLoop(int index) {
 		int i = 0;
-		for (Node node = first; node != null; node = node.next) {
+		for (Node<T> node = first; node != null; node = node.next) {
 			if (i++ == index) {
 				last.next = node;
 				return;
@@ -27,8 +28,8 @@ public class LinkedList {
 		}
 	}
 
-	public void addFirst(int item) {
-		Node node = new Node(item);
+	public void addFirst(T item) {
+		Node<T> node = new Node<>(item);
 		if (isEmpty()) {
 			first = last = node;
 		} else {
@@ -37,8 +38,8 @@ public class LinkedList {
 		}
 	}
 
-	public void addLast(int item) {
-		Node node = new Node(item);
+	public void addLast(T item) {
+		Node<T> node = new Node<>(item);
 		if (isEmpty()) {
 			first = last = node;
 		} else {
@@ -55,17 +56,39 @@ public class LinkedList {
 		if (first == last)
 			first = last = null;
 		else {
-			Node second = first.next;
+			Node<T> second = first.next;
 			first.next = null;
 			first = second;
 		}
 		size--;
 	}
 
-	public void removeLast() {
-		if (size <= 0) {
-			throw new NoSuchElementException();
+	public void remove(int index) {
+		if (index >= size || index < 0)
+			throw new ArrayIndexOutOfBoundsException(index);
+
+		if (index == 0) {
+			removeFirst();
+		} else if (index == size - 1)
+			removeLast();
+		else {
+			Node<T> previous = null;
+			int i = 0;
+			for (Node<T> node = first; node != null; node = node.next) {
+				if (i++ == index) {
+					previous.next = node.next;
+					break;
+				}
+				previous = node;
+			}
 		}
+		size--;
+	}
+
+	public void removeLast() {
+		if (isEmpty())
+			throw new NoSuchElementException();
+
 		if (first == last) {
 			first = last = null;
 		}
@@ -74,8 +97,8 @@ public class LinkedList {
 		size--;
 	}
 
-	private Node getPrevious() {
-		Node node = first;
+	private Node<T> getPrevious() {
+		Node<T> node = first;
 		while (node != null) {
 			if (node.next == last) return node;
 
@@ -85,13 +108,13 @@ public class LinkedList {
 		return null;
 	}
 
-	public boolean contains(int value) {
+	public boolean contains(T value) {
 		return indexOf(value) != -1;
 	}
 
-	public int indexOf(int item) {
+	public int indexOf(T item) {
 		int i = 0;
-		for (Node node = first; node != null; node = node.next) {
+		for (Node<T> node = first; node != null; node = node.next) {
 			if (node.value == item)
 				return i;
 			i++;
@@ -99,10 +122,10 @@ public class LinkedList {
 		return -1;
 	}
 
-	public int[] toArray() {
-		int[] items = new int[size];
+	public T[] toArray() {
+		T[] items = (T[]) Array.newInstance(first.value.getClass(), 5);
 		int index = 0;
-		for (Node node = first; node != null; node = node.next)
+		for (Node<T> node = first; node != null; node = node.next)
 			items[index++] = node.value;
 
 		return items;
@@ -113,7 +136,7 @@ public class LinkedList {
 	}
 
 	public void print() {
-		Node node = first;
+		Node<T> node = first;
 		while (node != null) {
 			System.out.println(node.value);
 			node = node.next;
@@ -124,12 +147,12 @@ public class LinkedList {
 		if (first == last)
 			return;
 		last = first;
-		Node current = first;
-		Node previous = null;
+		Node<T> current = first;
+		Node<T> previous = null;
 		while (current != null) {
-			Node second = current.next;
+			Node<T> second = current.next;
 			if (second != null) {
-				Node third = second.next;
+				Node<T> third = second.next;
 				second.next = current;
 				current.next = previous;
 				current = third;
@@ -143,11 +166,11 @@ public class LinkedList {
 		first = previous;
 	}
 
-	public int getKthNodeFromTheEnd(int k) {
+	public T getKthNodeFromTheEnd(int k) {
 		if (isEmpty())
 			throw new IllegalArgumentException();
-		Node a = first;
-		Node b = first;
+		Node<T> a = first;
+		Node<T> b = first;
 		for (int i = 1; i < k; i++) {
 			b = b.next;
 			if (b == null)
@@ -163,11 +186,11 @@ public class LinkedList {
 	public void printMiddle() {
 		if (isEmpty()) return;
 
-		Node a = first;
-		Node b = first;
+		Node<T> a = first;
+		Node<T> b = first;
 		while (true) {
 			if (b.next == last) {
-				System.out.printf("Middle: %d %d \n", a.value, a.next.value);
+				System.out.printf("Middle: %s %s \n", a.value, a.next.value);
 				break;
 			} else if (b.next == null) {
 				break;
@@ -179,8 +202,8 @@ public class LinkedList {
 
 	public boolean hasLoop() {
 		if (first == last) return false;
-		Node a = first;
-		Node b = first;
+		Node<T> a = first;
+		Node<T> b = first;
 		while (b != null && b.next != null) {
 			if (b.next == a) return true;
 			b = b.next.next;
@@ -198,7 +221,7 @@ public class LinkedList {
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("[");
-		Node node = first;
+		Node<T> node = first;
 		while (node != null) {
 			stringBuilder.append(node.value);
 			node = node.next;

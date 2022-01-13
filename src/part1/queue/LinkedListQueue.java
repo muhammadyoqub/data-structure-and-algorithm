@@ -8,24 +8,24 @@ import part1.linked.LinkedList;
  * Time: 15:03
  * Software team
  */
-public class LinkedListQueue {
-	private LinkedList items;
+public class LinkedListQueue<T> {
+	private LinkedList<T> items;
 
 	public LinkedListQueue() {
-		items = new LinkedList();
+		items = new LinkedList<>();
 	}
 
-	public void add(int item) {
+	public void add(T item) {
 		items.addLast(item);
 	}
 
-	public int remove() {
-		int item = peek();
+	public T remove() {
+		T item = peek();
 		items.removeFirst();
 		return item;
 	}
 
-	public int peek() {
+	public T peek() {
 		if (isEmpty())
 			throw new IllegalStateException();
 		return items.getKthNodeFromTheEnd(items.size());
