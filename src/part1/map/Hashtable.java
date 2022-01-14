@@ -10,62 +10,58 @@ import part1.linked.LinkedList;
  */
 public class Hashtable<K, V> {
 
-	LinkedList<Entry<K, V>>[] list;
+	LinkedList<Entry<K, V>>[] entries;
 
 	public Hashtable(int capacity) {
-		list = new LinkedList[capacity];
+		entries = (LinkedList<Entry<K, V>>[]) new LinkedList[capacity];
 	}
 
-	public boolean put(K key, V value) {
-		Integer hash = hash(key);
-		LinkedList<Entry<K, V>> entryLinkedList = list[hash];
-		if (entryLinkedList == null) {
-			entryLinkedList = new LinkedList<>();
-			entryLinkedList.addFirst(new Entry<>(key, value));
-			list[hash] = entryLinkedList;
-		} else {
-			Entry<K, V>[] entries = entryLinkedList.toArray();
-			for (Entry<K, V> entry : entries) {
-				if (entry != null && entry.key == key) {
-					entry.value = value;
-					return true;
-				}
-			}
-			entryLinkedList.addLast(new Entry<>(key, value));
+	public void put(K key, V value) {
+		Entry<K, V> entry = getEntry(key);
+		if (entry != null) {
+			entry.value = value;
+			return;
 		}
 
-		return true;
+		getOrCreateBucket(key).addLast(new Entry<>(key, value));
 	}
 
 	public V get(K key) {
-		Integer hash = hash(key);
-		LinkedList<Entry<K, V>> entryLinkedList = list[hash];
-		if (entryLinkedList != null)
-			for (Entry<K, V> entry : entryLinkedList.toArray())
-				if (entry.key == key) return entry.value;
+		Entry<K, V> entry = getEntry(key);
+		return entry == null ? null : entry.value;
+	}
 
+	public boolean remove(K key) {
+		Entry<K, V> entry = getEntry(key);
+		if (entry != null)
+			getBucket(key).remove(entry);
+
+		return false;
+	}
+
+	private Entry<K, V> getEntry(K key) {
+		LinkedList<Entry<K, V>> bucket = getBucket(key);
+		if (bucket != null)
+			for (Entry<K, V> entry : bucket.toArray())
+				if (entry.key == key)
+					return entry;
 
 		return null;
 	}
 
-	public boolean remove(K key) {
-		Integer hash = hash(key);
-		LinkedList<Entry<K, V>> entryList = list[hash];
-		if (entryList != null) {
-			Entry<K, V>[] entries = entryList.toArray();
-			for (int i = 0; i < entryList.toArray().length; i++) {
-				if (entries[i] == key) {
-					entryList.remove(i);
-					return true;
-				}
-			}
-		}
-		return false;
+	private LinkedList<Entry<K, V>> getBucket(K key) {
+		return entries[hash(key)];
+	}
+
+	private LinkedList<Entry<K, V>> getOrCreateBucket(K key) {
+		Integer index = hash(key);
+		if (entries[index] == null)
+			entries[index] = new LinkedList<>();
+		return entries[index];
 	}
 
 	public Integer hash(K key) {
-		int hash = key.hashCode() % list.length;
-		return hash;
+		return key.hashCode() % entries.length;
 	}
 
 	private static class Entry<K, V> {

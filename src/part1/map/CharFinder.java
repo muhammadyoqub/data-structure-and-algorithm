@@ -16,9 +16,9 @@ public class CharFinder {
 	public static void main(String[] args) {
 
 		Hashtable<Integer, String> hashTable = new Hashtable<>(5);
-		hashTable.put(1, "Ahmad");
-		hashTable.put(11, "Umar");
-		hashTable.put(1, "Usmon");
+		hashTable.put(1, "A");
+		hashTable.put(3, "B");
+		hashTable.put(11, "C");
 		hashTable.put(6, "Salmon");
 		hashTable.put(42314, "ABC");
 		hashTable.put(55, "OLL");
