@@ -1,36 +1,14 @@
 package part1.linked;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
-import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class LinkedList<T> implements Iterable {
+public class LinkedList<T> {
 
 	private Node<T> first;
 	private Node<T> last;
 	private int size;
-
-	@NotNull
-	@Override
-	public Iterator<T> iterator() {
-
-		return new Iterator<T>() {
-			private Node<T> current = first;
-
-			@Override
-			public boolean hasNext() {
-				return current.next != null;
-			}
-
-			@Override
-			public T next() {
-				current = current.next;
-				return current.value;
-			}
-		};
-	}
 
 	private static class Node<T> {
 		private final T value;
