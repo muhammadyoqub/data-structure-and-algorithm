@@ -8,7 +8,6 @@ package part2.binarytrees;
  */
 public class Tree<T> {
 	private Node<T> root;
-	private int size;
 
 	public static class Node<T> {
 		private Node<T> right;
@@ -48,7 +47,6 @@ public class Tree<T> {
 				}
 			}
 		}
-		size++;
 	}
 
 	public boolean find(T item) {
@@ -66,9 +64,50 @@ public class Tree<T> {
 		return false;
 	}
 
-
-	public int size() {
-		return size;
+	public void printPreOrder() {
+		System.out.println("---Depth first Pre order BEGIN");
+		traversePreOrder(root);
+		System.out.println("---Depth first Pre order END");
 	}
 
+	public void printInOrder() {
+		System.out.println("---Depth first In order BEGIN");
+		traverseInOrder(root);
+		System.out.println("---Depth first In order END");
+	}
+
+	public int height() {
+		return height(root);
+	}
+
+	private void traversePreOrder(Node<T> root) {
+		if (root == null)
+			return;
+		System.out.println(root.value);
+		traversePreOrder(root.left);
+		traversePreOrder(root.right);
+	}
+
+	private void traverseInOrder(Node<T> root) {
+		if (root == null)
+			return;
+		traverseInOrder(root.left);
+		System.out.println(root.value);
+		traverseInOrder(root.right);
+	}
+
+	private int height(Node<T> root) {
+		if (root == null)
+			return -1;
+		if (isLeaf(root))
+			return 0;
+
+		int left = height(root.left);
+		int right = height(root.right);
+		return 1 + (Math.max(left, right));
+	}
+
+	private boolean isLeaf(Node<T> root) {
+		return root.left == null && root.right == null;
+	}
 }
