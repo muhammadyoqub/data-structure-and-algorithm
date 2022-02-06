@@ -1,5 +1,8 @@
 package part2.binarytrees;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by yaqub
  * Date: 28/01/22
@@ -20,7 +23,15 @@ public class Tree<T> {
 
 		@Override
 		public String toString() {
-			return "Node=" + value;
+			StringBuilder builder = new StringBuilder();
+			builder.append("Node=").append(value);
+			if (left != null)
+				builder.append(", left=").append(left.value);
+
+			if (right != null)
+				builder.append(", right=").append(right.value);
+
+			return builder.toString();
 		}
 	}
 
@@ -64,6 +75,14 @@ public class Tree<T> {
 		return false;
 	}
 
+	public void printLevelOrder() {
+		System.out.println("Print Level Order");
+		for (int i = 0; i <= height(); i++) {
+			for (T item : getNodesAtDistance(i))
+				System.out.println(item);
+		}
+	}
+
 	public void printPreOrder() {
 		System.out.println("---Depth first Pre order BEGIN");
 		traversePreOrder(root);
@@ -76,8 +95,105 @@ public class Tree<T> {
 		System.out.println("---Depth first In order END");
 	}
 
+	public void printPostOrder() {
+		System.out.println("---Depth first Post order BEGIN");
+		traversePostOrder(root);
+		System.out.println("---Depth first Post order END");
+	}
+
 	public int height() {
 		return height(root);
+	}
+
+	public boolean equals(Tree<T> tree) {
+		if (tree == null)
+			return false;
+		return equals(root, tree.root);
+	}
+
+	public boolean isBinarySearchTree() {
+		return isBinarySearchTree(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
+
+	public List<T> getNodesAtDistance(int distance) {
+		List<T> list = new ArrayList<>();
+		getNodesAtDistance(root, distance, list);
+		return list;
+	}
+
+	public int size() {
+		return size(root, 1);
+	}
+
+	public int countLeaves() {
+		return countLeaves(root, 0);
+	}
+
+	private int countLeaves(Node<T> root, int count) {
+		if (root == null)
+			return count;
+
+		if (isLeaf(root))
+			return count + 1;
+
+		count = countLeaves(root.left, count);
+		count = countLeaves(root.right, count);
+		return count;
+	}
+
+	private int size(Node<T> root, int size) {
+		if (root == null)
+			return size - 1;
+
+		size = size(root.left, size + 1);
+		size = size(root.right, size + 1);
+		return size;
+	}
+
+	public T max() {
+		return max(root, root.value);
+	}
+
+	private T max(Node<T> root, T max) {
+		if (root == null || root.right == null)
+			return max;
+
+		return max(root.right, root.right.value);
+	}
+
+	private boolean isBinarySearchTree(Node<T> root, int min, int max) {
+		if (root == null)
+			return true;
+
+		return root.value.hashCode() > min && root.value.hashCode() < max
+				&& isBinarySearchTree(root.left, min, root.value.hashCode() - 1)
+				&& isBinarySearchTree(root.right, root.value.hashCode(), max);
+	}
+
+	private void getNodesAtDistance(Node<T> root, int distance, List<T> list) {
+		if (root == null)
+			return;
+
+		if (distance == 0) {
+			list.add(root.value);
+			return;
+		}
+
+		distance--;
+		getNodesAtDistance(root.left, distance, list);
+		getNodesAtDistance(root.right, distance, list);
+	}
+
+	private boolean equals(Node<T> a, Node<T> b) {
+		if (a == null && b == null)
+			return true;
+
+		if (a != null && b != null)
+			return a.value == b.value
+					&& equals(a.left, b.left)
+					&& equals(a.right, b.right);
+
+		return false;
 	}
 
 	private void traversePreOrder(Node<T> root) {
@@ -96,6 +212,14 @@ public class Tree<T> {
 		traverseInOrder(root.right);
 	}
 
+	private void traversePostOrder(Node<T> root) {
+		if (root == null)
+			return;
+		traversePostOrder(root.left);
+		traversePostOrder(root.right);
+		System.out.println(root.value);
+	}
+
 	private int height(Node<T> root) {
 		if (root == null)
 			return -1;
@@ -104,7 +228,7 @@ public class Tree<T> {
 
 		int left = height(root.left);
 		int right = height(root.right);
-		return 1 + (Math.max(left, right));
+		return 1 + Math.max(left, right);
 	}
 
 	private boolean isLeaf(Node<T> root) {
