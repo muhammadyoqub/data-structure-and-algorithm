@@ -42,6 +42,7 @@ public class Main {
 		System.out.println("Size: " + tree.size());
 		System.out.println("Count Leaves: " + tree.countLeaves());
 		System.out.println("Max: " + tree.max());
+		System.out.println("Contains: " + tree.contains(3));
 	}
 
 	public static int factorial(int num) {

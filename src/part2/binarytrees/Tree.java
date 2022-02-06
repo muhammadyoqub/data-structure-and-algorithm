@@ -154,6 +154,21 @@ public class Tree<T> {
 		return max(root, root.value);
 	}
 
+	public boolean contains(T item) {
+		return contains(root, item);
+	}
+
+	private boolean contains(Node<T> root, T item) {
+		if (root != null) {
+			if (root.value.hashCode() > item.hashCode())
+				return contains(root.left, item);
+			else if (root.value.hashCode() < item.hashCode())
+				return contains(root.right, item);
+			else return true;
+		}
+		return false;
+	}
+
 	private T max(Node<T> root, T max) {
 		if (root == null || root.right == null)
 			return max;
@@ -234,4 +249,10 @@ public class Tree<T> {
 	private boolean isLeaf(Node<T> root) {
 		return root.left == null && root.right == null;
 	}
+
+	private boolean hasBothSubTree(Node<T> root) {
+		return root.left != null && root.right != null;
+	}
+
+
 }
