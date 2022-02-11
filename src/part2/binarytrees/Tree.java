@@ -1,6 +1,7 @@
 package part2.binarytrees;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -127,6 +128,38 @@ public class Tree<T> {
 
 	public int countLeaves() {
 		return countLeaves(root, 0);
+	}
+
+	public boolean areSibling(T a, T b) {
+		return areSibling(root, a.hashCode() + b.hashCode());
+	}
+
+	private boolean areSibling(Node<T> root, int hashcode) {
+		if (root != null) {
+			if (root.left != null && root.right != null
+					&& root.right.value.hashCode() + root.left.value.hashCode() == hashcode)
+				return true;
+			else return areSibling(root.left, hashcode) || areSibling(root.right, hashcode);
+		}
+		return false;
+	}
+
+	public List<T> getAncestors(T item) {
+		LinkedList<T> ancestors = new LinkedList<>();
+		getAncestors(root, item, ancestors);
+		return ancestors;
+	}
+
+	private boolean getAncestors(Node<T> root, T item, List<T> ancestors) {
+		if (root == null)
+			return false;
+		if (root.value == item)
+			return true;
+		if (getAncestors(root.left, item, ancestors) || getAncestors(root.right, item, ancestors)) {
+			ancestors.add(root.value);
+			return true;
+		}
+		return false;
 	}
 
 	private int countLeaves(Node<T> root, int count) {

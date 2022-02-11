@@ -43,6 +43,8 @@ public class Main {
 		System.out.println("Count Leaves: " + tree.countLeaves());
 		System.out.println("Max: " + tree.max());
 		System.out.println("Contains: " + tree.contains(3));
+		System.out.println("AreSibling: " + tree.areSibling(3, 8));
+		System.out.println("getAncestors: " + tree.getAncestors(3));
 	}
 
 	public static int factorial(int num) {
