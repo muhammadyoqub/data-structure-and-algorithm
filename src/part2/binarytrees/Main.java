@@ -13,6 +13,12 @@ public class Main {
 		tree.insert(3);
 		tree.insert(8);
 		tree.insert(26);
+		tree.insert(16);
+		tree.insert(32);
+		tree.insert(31);
+		tree.insert(33);
+		tree.insert(13);
+		tree.insert(23);
 
 		Tree<Integer> tree2 = new Tree<>();
 		tree2.insert(20);
@@ -45,6 +51,8 @@ public class Main {
 		System.out.println("Contains: " + tree.contains(3));
 		System.out.println("AreSibling: " + tree.areSibling(3, 8));
 		System.out.println("getAncestors: " + tree.getAncestors(3));
+		System.out.println("isBalanced: " + tree.isBalanced());
+		System.out.println("isPerfect: " + tree.isPerfect());
 	}
 
 	public static int factorial(int num) {

@@ -1,5 +1,7 @@
 package part2.binarytrees;
 
+import part2.avl.AVLTree;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -191,6 +193,53 @@ public class Tree<T> {
 		return contains(root, item);
 	}
 
+	public boolean isBalanced() {
+		return isBalanced(root);
+	}
+
+	public boolean isPerfect() {
+		return isPerfect(root);
+	}
+
+	private boolean isPerfect(Node<T> root) {
+		if (root == null)
+			return true;
+
+		int depth = getDepth(root);
+		return isPerfect(root, depth, 0);
+	}
+
+	private boolean isPerfect(Node<T> root, int depth, int level) {
+		if (root == null)
+			return true;
+
+		if (root.left == null && root.right == null)
+			return depth == level + 1;
+
+		if (root.left == null || root.right == null)
+			return false;
+
+		return isPerfect(root.left, depth, level + 1) && isPerfect(root.right, depth, level + 1);
+	}
+
+	private int getDepth(Node<T> root) {
+		int i = 0;
+		while (root != null) {
+			i++;
+			root = root.left;
+		}
+		return i;
+	}
+
+	private boolean isBalanced(Node<T> root) {
+		if (root == null)
+			return true;
+
+		int left = height(root.left);
+		int right = height(root.right);
+		return Math.abs(left - right) <= 1 && isBalanced(root.left) && isBalanced(root.right);
+	}
+
 	private boolean contains(Node<T> root, T item) {
 		if (root != null) {
 			if (root.value.hashCode() > item.hashCode())
@@ -282,10 +331,4 @@ public class Tree<T> {
 	private boolean isLeaf(Node<T> root) {
 		return root.left == null && root.right == null;
 	}
-
-	private boolean hasBothSubTree(Node<T> root) {
-		return root.left != null && root.right != null;
-	}
-
-
 }
