@@ -13,33 +13,69 @@ public class Heap<T> {
 		bubbleUp(size - 1);
 	}
 
-	public void remove() {
-		shiftUp();
+	public T remove() {
+		if (isEmpty())
+			throw new IllegalStateException();
+
+		T root = shiftUp();
 		bubbleDown(0);
+		return root;
+	}
+
+	public boolean isEmpty() {
+		return size == 0;
 	}
 
 	private void bubbleDown(int i) {
-		T left = items[left(i)];
-		T right = items[right(i)];
-		if (right == null) {
-			if (left.hashCode() > items[i].hashCode()) {
-				swap(i, left(i));
-				bubbleDown(left(i));
-			}
-		} else if (left != null) {
-			if (left.hashCode() > items[i].hashCode()) {
-				swap(i, left(i));
-				bubbleDown(left(i));
-			} else if (right.hashCode() > items[i].hashCode()) {
-				swap(i, right(i));
-				bubbleDown(right(i));
-			}
+		if (i < size && !isValidParent(i)) {
+			int largerChildIndex = largerChildIndex(i);
+			swap(i, largerChildIndex);
+			bubbleDown(largerChildIndex);
 		}
 	}
 
-	private void shiftUp() {
+	private int largerChildIndex(int index) {
+		if (!hasLeftChild(index))
+			return index;
+
+		if (right(index) >= size)
+			return left(index);
+
+		return leftChild(index).hashCode() > rightChild(index).hashCode() ? left(index) : right(index);
+	}
+
+	private boolean isValidParent(int index) {
+		if (!hasLeftChild(index))
+			return true;
+		boolean isValid = items[index].hashCode() >= leftChild(index).hashCode();
+		if (!hasRightChild(index))
+			isValid &= items[index].hashCode() >= rightChild(index).hashCode();
+
+		return isValid;
+	}
+
+	private boolean hasLeftChild(int index) {
+		return left(index) < size;
+	}
+
+	private boolean hasRightChild(int index) {
+		return right(index) < size;
+	}
+
+	private T leftChild(int index) {
+		return items[left(index)];
+	}
+
+	private T rightChild(int index) {
+		return items[right(index)];
+	}
+
+
+	private T shiftUp() {
+		T root = items[0];
 		items[0] = items[size - 1];
 		items[size--] = null;
+		return root;
 	}
 
 	@Override
