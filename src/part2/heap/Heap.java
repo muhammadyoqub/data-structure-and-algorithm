@@ -26,6 +26,10 @@ public class Heap<T> {
 		return size == 0;
 	}
 
+	public T max() {
+		return items[0];
+	}
+
 	private void bubbleDown(int i) {
 		if (i < size && !isValidParent(i)) {
 			int largerChildIndex = largerChildIndex(i);
@@ -48,7 +52,7 @@ public class Heap<T> {
 		if (!hasLeftChild(index))
 			return true;
 		boolean isValid = items[index].hashCode() >= leftChild(index).hashCode();
-		if (!hasRightChild(index))
+		if (hasRightChild(index))
 			isValid &= items[index].hashCode() >= rightChild(index).hashCode();
 
 		return isValid;
@@ -74,7 +78,7 @@ public class Heap<T> {
 	private T shiftUp() {
 		T root = items[0];
 		items[0] = items[size - 1];
-		items[size--] = null;
+		items[--size] = null;
 		return root;
 	}
 
