@@ -21,11 +21,12 @@ public class Graph {
 	}
 
 	private final Map<String, Vertex> vertices = new HashMap<>();
-	private final Map<String, List<Vertex>> edges = new HashMap<>();
+	private final Map<Vertex, List<Vertex>> edges = new HashMap<>();
 
 	public void addVertex(String label) {
-		vertices.putIfAbsent(label, new Vertex(label));
-		edges.putIfAbsent(label, new ArrayList<>());
+		Vertex vertex = new Vertex(label);
+		vertices.putIfAbsent(label, vertex);
+		edges.putIfAbsent(vertex, new ArrayList<>());
 	}
 
 	public boolean removeVertex(String label) {
@@ -39,40 +40,36 @@ public class Graph {
 
 	public void addEdge(String from, String to) {
 		Vertex fromVertex = vertices.get(from);
-		if (fromVertex == null)
+		Vertex toVertex = vertices.get(to);
+		if (fromVertex == null || toVertex == null)
 			throw new IllegalArgumentException();
 
-		Vertex toVertex = vertices.get(to);
-		if (to == null)
-			throw new IllegalArgumentException();
-		edges.get(from).add(toVertex);
+		if (!edges.get(fromVertex).contains(toVertex))
+			edges.get(fromVertex).add(toVertex);
 	}
 
 	public boolean removeEdge(String from, String to) {
 		Vertex fromVertex = vertices.get(from);
-		if (fromVertex == null)
-			throw new IllegalArgumentException();
-
 		Vertex toVertex = vertices.get(to);
-		if (toVertex == null)
+		if (fromVertex == null || toVertex == null)
 			throw new IllegalArgumentException();
 
-		return edges.get(from).remove(toVertex);
+		return edges.get(fromVertex).remove(toVertex);
 	}
 
 	public void print() {
-		for (Map.Entry<String, List<Vertex>> entry : edges.entrySet()) {
+		for (Map.Entry<Vertex, List<Vertex>> entry : edges.entrySet()) {
 			if (!entry.getValue().isEmpty())
 				System.out.println(entry.getKey() + " is connected with " + entry.getValue());
 		}
 	}
 
 	private void removeEdges(Vertex vertex) {
-		for (Map.Entry<String, List<Vertex>> entry : edges.entrySet()) {
-			if (!entry.getKey().equals(vertex.label)) {
+		for (Map.Entry<Vertex, List<Vertex>> entry : edges.entrySet()) {
+			if (!entry.getKey().equals(vertex)) {
 				entry.getValue().remove(vertex);
 			}
 		}
-		edges.remove(vertex.label);
+		edges.remove(vertex);
 	}
 }

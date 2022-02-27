@@ -22,6 +22,7 @@ public class Main {
 		graph.addEdge("Rob", "Bob");
 		graph.addEdge("Rob", "Mark");
 		graph.addEdge("Rob", "Maria");
+		graph.addEdge("Rob", "Maria");
 
 		graph.addEdge("Maria", "Alice");
 		graph.addEdge("Maria", "Rob");
