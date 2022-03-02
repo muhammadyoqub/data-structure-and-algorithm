@@ -1,9 +1,14 @@
 package part2.graph;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
+import java.util.Stack;
 
 public class Graph {
 
@@ -62,6 +67,71 @@ public class Graph {
 			if (!entry.getValue().isEmpty())
 				System.out.println(entry.getKey() + " is connected with " + entry.getValue());
 		}
+	}
+
+	public void traverseDepthFirst(String root) {
+		Vertex vertex = vertices.get(root);
+		if (vertex != null)
+			traverseDepthFirst(vertex, new HashSet<>());
+
+	}
+
+	public void iterateDepthFirst(String root) {
+		Vertex vertex = vertices.get(root);
+		if (vertex == null)
+			return;
+
+		Set<Vertex> visited = new HashSet<>();
+
+		Stack<Vertex> stack = new Stack<>();
+		stack.push(vertex);
+
+		while (!stack.isEmpty()) {
+			Vertex current = stack.pop();
+
+			if (visited.contains(current))
+				continue;
+
+			System.out.println(current);
+			visited.add(current);
+
+			for (Vertex neighbour : edges.get(current))
+				if (!visited.contains(neighbour))
+					stack.push(neighbour);
+
+		}
+	}
+
+	public void traverseBreadthFirst(String root) {
+		Vertex vertex = vertices.get(root);
+		if (vertex == null)
+			return;
+		Set<Vertex> visited = new HashSet<>();
+
+		Queue<Vertex> queue = new ArrayDeque<>(vertices.size());
+		queue.add(vertex);
+		while (!queue.isEmpty()) {
+			Vertex current = queue.remove();
+
+			if (visited.contains(current))
+				continue;
+
+			visited.add(current);
+			System.out.println(current);
+
+			for (Vertex neighbour : edges.get(current))
+				if (!visited.contains(neighbour))
+					queue.add(neighbour);
+		}
+	}
+
+	private void traverseDepthFirst(Vertex vertex, Set<Vertex> visited) {
+		System.out.println(vertex);
+		visited.add(vertex);
+
+		for (Vertex adjacent : edges.get(vertex))
+			if (!visited.contains(adjacent))
+				traverseDepthFirst(adjacent, visited);
 	}
 
 	private void removeEdges(Vertex vertex) {

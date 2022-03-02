@@ -29,5 +29,8 @@ public class Main {
 		graph.removeEdge("Maria", "Alice");
 		graph.removeVertex("Mark");
 		graph.print();
+		graph.traverseDepthFirst("Rob");
+		graph.iterateDepthFirst("Rob");
+		graph.traverseBreadthFirst("Rob");
 	}
 }
