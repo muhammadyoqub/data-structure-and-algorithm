@@ -125,6 +125,61 @@ public class Graph {
 		}
 	}
 
+	public boolean hasCycle() {
+		Set<Vertex> all = new HashSet<>(vertices.values());
+		Set<Vertex> visiting = new HashSet<>();
+		Set<Vertex> visited = new HashSet<>();
+		while (!all.isEmpty()) {
+			Vertex vertex = all.iterator().next();
+			if (hasCycle(vertex, all, visiting, visited))
+				return true;
+		}
+		return false;
+	}
+
+	private boolean hasCycle(Vertex root, Set<Vertex> all, Set<Vertex> visiting, Set<Vertex> visited) {
+		all.remove(root);
+		visiting.add(root);
+
+		for (Vertex neighbour : edges.get(root)) {
+			if (visited.contains(neighbour))
+				continue;
+
+			if (visiting.contains(neighbour) || hasCycle(neighbour, all, visiting, visited)) {
+				return true;
+			}
+		}
+		visiting.remove(root);
+		visited.add(root);
+		return false;
+	}
+
+	public List<String> topologicalSort() {
+		Set<Vertex> visited = new HashSet<>();
+		Stack<Vertex> stack = new Stack<>();
+		for (Vertex vertex : vertices.values())
+			topologicalSort(vertex, visited, stack);
+
+		List<String> sorted = new ArrayList<>();
+		while (!stack.isEmpty()) {
+			sorted.add(stack.pop().label);
+		}
+
+		return sorted;
+	}
+
+	private void topologicalSort(Vertex root, Set<Vertex> visited, Stack<Vertex> stack) {
+
+		if (visited.contains(root))
+			return;
+
+		visited.add(root);
+		for (Vertex adjacent : edges.get(root))
+			topologicalSort(adjacent, visited, stack);
+
+		stack.push(root);
+	}
+
 	private void traverseDepthFirst(Vertex vertex, Set<Vertex> visited) {
 		System.out.println(vertex);
 		visited.add(vertex);
