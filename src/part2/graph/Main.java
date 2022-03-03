@@ -32,5 +32,7 @@ public class Main {
 		graph.traverseDepthFirst("Rob");
 		graph.iterateDepthFirst("Rob");
 		graph.traverseBreadthFirst("Rob");
+		System.out.println("topologicalSort: " + graph.topologicalSort());
+		System.out.println("hasCycle: " + graph.hasCycle());
 	}
 }
