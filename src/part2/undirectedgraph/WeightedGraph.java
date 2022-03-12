@@ -83,6 +83,29 @@ public class WeightedGraph {
 		toNode.addEdge(fromNode, weight);
 	}
 
+	public boolean hasCycle() {
+		Set<Node> visited = new HashSet<>();
+		for (Node node : nodes.values()) {
+			if (!visited.contains(node) && hasCycle(node, null, visited))
+				return true;
+		}
+		return false;
+	}
+
+
+	private boolean hasCycle(Node node, Node parent, Set<Node> visited) {
+		visited.add(node);
+		for (Edge edge : node.getEdges()) {
+			if (edge.to == parent)
+				continue;
+
+			if (visited.contains(edge.to) || hasCycle(edge.to, node, visited))
+				return true;
+
+		}
+		return false;
+	}
+
 	public Path getShortestPath(String from, String to) {
 		Node fromNode = nodes.get(from);
 		Node toNode = nodes.get(to);

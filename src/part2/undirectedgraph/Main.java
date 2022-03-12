@@ -15,8 +15,10 @@ public class Main {
 		graph.addNode("C");
 		graph.addEdge("A", "B", 2);
 		graph.addEdge("B", "C", 2);
-		graph.addEdge("A", "C", 3);
+//		graph.addEdge("A", "C", 3);
+		graph.addEdge("C", "A", 3);
 		graph.print();
 		System.out.println(graph.getShortestPath("A", "C"));
+		System.out.println("hasCycle: " + graph.hasCycle());
 	}
 }
