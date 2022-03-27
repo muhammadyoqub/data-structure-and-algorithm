@@ -139,7 +139,7 @@ public class LinkedList<T> {
 	}
 
 	public T[] toArray() {
-		T[] items = (T[]) Array.newInstance(first.value.getClass(), 5);
+		T[] items = (T[]) Array.newInstance(first.value.getClass(), size);
 		int index = 0;
 		for (Node<T> node = first; node != null; node = node.next)
 			items[index++] = node.value;

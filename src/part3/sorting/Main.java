@@ -33,5 +33,23 @@ public class Main {
 		System.out.println("\nBefore merge sorting: " + Arrays.toString(nums));
 		mergeSort.sort(nums);
 		System.out.println("After merge sorting: " + Arrays.toString(nums));
+
+		nums = new int[]{15, 6, 3, 1, 22, 10, 13};
+		QuickSort quickSort = new QuickSort();
+		System.out.println("\nBefore quick sorting: " + Arrays.toString(nums));
+		quickSort.sort(nums);
+		System.out.println("After quick sorting: " + Arrays.toString(nums));
+
+		nums = new int[]{15, 6, 3, 1, 22, 10, 13};
+		CountingSort countingSort = new CountingSort();
+		System.out.println("\nBefore counting sorting: " + Arrays.toString(nums));
+		countingSort.sort(nums);
+		System.out.println("After counting sorting: " + Arrays.toString(nums));
+
+		nums = new int[]{15, 6, 3, 1, 22, 10, 13};
+		BucketSort bucketSort = new BucketSort();
+		System.out.println("\nBefore bucket sorting: " + Arrays.toString(nums));
+		bucketSort.sort(nums, 3);
+		System.out.println("After bucket sorting: " + Arrays.toString(nums));
 	}
 }
